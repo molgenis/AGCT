@@ -1,1 +1,1 @@
-# AGCT
+# Array Genotyping Conversion Tool
