@@ -1,0 +1,3 @@
+step,protocol,dependencies
+s01_convert_IDAT_To_GTC_Format,protocols/convert_IDAT_To_GTC_Format.sh,
+s02_PipelineFinished,protocols/PipelineFinished.sh,s01_convert_IDAT_To_GTC_Format

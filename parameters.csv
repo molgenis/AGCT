@@ -1,0 +1,17 @@
+#Tools
+#pythonVersion,Python/2.7.11-foss-2015b
+
+#references
+bpmFile,/apps/data/GSAarray/${manifest}
+eftFile,/apps/data/GSAarray/${egt}
+
+#paths
+root,/
+appsDir,${root}/apps/
+workDir,/groups/${group}/
+tmpDir,${workDir}/${tmpName}/
+tmpTmpdir,${tmpDir}/tmp/
+intermediateDir,${tmpTmpdir}/${Project}/${runid}/
+logsDir,${workDir}/${tmpName}/logs/
+ConvertDir,${intermediateDir}/Convert_IDAT_GTC/
+IDATFilesPath,${tmpDir}/rawdata/array/IDAT/
