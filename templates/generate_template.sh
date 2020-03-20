@@ -87,5 +87,7 @@ sh "${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh" \
 -p "${genScripts}/parameters_host_converted.csv" \
 -p "${samplesheet}" \
 -w "${workflow}" \
+-rundir "${workDir}/runs/${filePrefix}/${runID}/jobs/" \
+-b slurm \
 -weave \
 --generate
