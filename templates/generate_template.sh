@@ -69,7 +69,7 @@ host=$(hostname -s)
 echo "${host}"
 
 projectDir="${workDir}/runs/${filePrefix}/${runID}/jobs/"
-workflow=${EBROOTAGTC}/workflow.csv
+workflow=${EBROOTAGCT}/workflow.csv
 
 mkdir -p -m 2770 "${workDir}/runs/"
 mkdir -p -m 2770 "${workDir}/runs/${filePrefix}/"
