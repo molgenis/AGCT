@@ -52,6 +52,7 @@ do
 	echo ${i}
 done
 
+cd -
 
 ## touch file to let know conversion is completed
 if [ "${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started" ]
