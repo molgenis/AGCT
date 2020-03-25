@@ -18,11 +18,11 @@ module list
 mkdir -p "${ConvertDir}/"
 mkdir -p "${ConvertDir}/${SentrixBarcode_A}"
 
-if [ ! -f "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started" ]
+if [ ! -f "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started" ]
 then
-	touch ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started
+	touch ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started
 else
-	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started allready exist"
+	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started allready exist"
 fi
 
 ##Command to convert IDAT files to GTC files
@@ -44,9 +44,9 @@ mv "${ConvertDir}/${SentrixBarcode_A}" "${resultDir}/"
 
 
 ## touch file to let know conversion is completed
-if [ "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started" ]
+if [ "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started" ]
 then
-	mv ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.finished
+	mv ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.finished
 else
-	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started does not exist!"
+	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started does not exist!"
 fi

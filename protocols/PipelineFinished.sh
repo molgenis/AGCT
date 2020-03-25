@@ -10,12 +10,12 @@ set -u
 
 # Touch log file for GAP_Automated for starting copying project data to PRM
 
-if [ -f "${logsDir}//${Project}/${Project}.${runID}.convert_idat_gtc.started" ]
+if [ -f "${logsDir}//${Project}/${Project}.${runID}.AGCT.started" ]
 then
-	mv "${logsDir}/${Project}/${Project}.${runID}.convert_idat_gtc".{started,finished}
+	mv "${logsDir}/${Project}/${Project}.${runID}.AGCT".{started,finished}
 else
-	echo "${logsDir}//${Project}/${Project}.${runID}.convert_idat_gtc.started does not exist"
+	echo "${logsDir}//${Project}/${Project}.${runID}.AGCT.started does not exist"
 	exit 1
 fi
 
-echo "${logsDir}/${Project}/${Project}.${runID}.convert_idat_gtc.finished is created"
+echo "${logsDir}/${Project}/${Project}.${runID}.AGCT.finished is created"
