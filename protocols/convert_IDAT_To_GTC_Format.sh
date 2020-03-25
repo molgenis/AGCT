@@ -1,39 +1,52 @@
 #MOLGENIS walltime=05:59:00 mem=8gb ppn=1
 
-#string #iaapVersion
+#string iaapVersion
 #string bpmFile
 #string egtFile
+#string egt
 #string SentrixBarcode_A
 #string ConvertDir
 #string IDATFilesPath
 #string logsDir
 #string Project
-#string runID
-
+#string runid
+#string resultDir
 
 module load "${iaapVersion}"
 module list
 
-makeTmpDir "${ConvertDir}/"
-tmpConvertDir="${MC_tmpFile}"
+mkdir -p "${ConvertDir}/"
+mkdir -p "${ConvertDir}/${SentrixBarcode_A}"
 
-if [ !-f "${logsDir}//${Project}/${runID}.convert_idat_gtc.started" ]
+if [ ! -f "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started" ]
 then
-	touch ${logsDir}//${Project}/${runID}.convert_idat_gtc.started
+	touch ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started
 else
-	echo "${logsDir}//${Project}/${runID}.convert_idat_gtc.started allready exist"
-done
+	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started allready exist"
+fi
 
 ##Command to convert IDAT files to GTC files
-/apps/software/IAAP/cli-rhel.6-x64-1.1.0/iaap-cli/iaap-cli gencall "${bpmFile}" "${egtFile}" "${tmpConvertDir}" "${IDATFilesPath}/${SentrixBarcode_A}"
+/apps/software/IAAP/cli-rhel.6-x64-1.1.0/iaap-cli/iaap-cli gencall "${bpmFile}" "${egtFile}" "${ConvertDir}/${SentrixBarcode_A}" -f "${IDATFilesPath}/${SentrixBarcode_A}" -g
 
 
 ## md5sum the output
 
+for gtcfile in $(ls ${ConvertDir}/${SentrixBarcode_A}/*.gtc)
+do
+	md5sum "${gtcfile}" > "${gtcfile}".md5
+done
+
+#Move GTC files and md5's to resultsdir
+mkdir -p "${resultDir}"
+
+echo "moving ${ConvertDir}/${SentrixBarcode_A} ${resultDir}/"
+mv "${ConvertDir}/${SentrixBarcode_A}" "${resultDir}/"
 
 
-mkdir -p "${resultDir}/"
-
-#Move vcf and sd values to intermediateDir
-echo "moving ${tmpConvertDir}/${SentrixBarcode_A} ${resultDir}/"
-mv "${tmpConvertDir}/${SentrixBarcode_A}" "${resultDir}/"
+## touch file to let know conversion is completed
+if [ "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started" ]
+then
+	mv ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.finished
+else
+	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.convert_idat_gtc.started does not exist!"
+fi

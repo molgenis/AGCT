@@ -75,7 +75,9 @@ mkdir -p -m 2770 "${workDir}/runs/"
 mkdir -p -m 2770 "${workDir}/runs/${filePrefix}/"
 mkdir -p -m 2770 "${workDir}/runs/${filePrefix}/${runID}/"
 mkdir -p -m 2770 "${workDir}/runs/${filePrefix}/${runID}/jobs/"
+mkdir -p -m 2770 "${workDir}/logs/${filePrefix}/"
 
+touch "${workDir}/logs/${filePrefix}/${filePrefix}.run01.convert_idat_gtc.started"
 
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters_${host}.csv" > "${genScripts}/parameters_host_converted.csv"
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters_${group}.csv" > "${genScripts}/parameters_group_converted.csv"
@@ -91,3 +93,4 @@ sh "${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh" \
 -b slurm \
 -weave \
 --generate
+-o runID="${runID}"

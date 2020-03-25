@@ -1,9 +1,9 @@
 #Tools
-#pythonVersion,Python/2.7.11-foss-2015b
+iaapVersion,IAAP/cli-rhel.6-x64-1.1.0
 
 #references
 bpmFile,/apps/data/GSAarray/${manifest}
-eftFile,/apps/data/GSAarray/${egt}
+egtFile,/apps/data/GSAarray/${egt}
 
 #paths
 root,/
@@ -15,3 +15,4 @@ intermediateDir,${tmpTmpdir}/${Project}/${runid}/
 logsDir,${workDir}/${tmpName}/logs/
 ConvertDir,${intermediateDir}/Convert_IDAT_GTC/
 IDATFilesPath,${tmpDir}/rawdata/array/IDAT/
+resultDir,${tmpDir}/runs/${Project}/${runid}/results/GTC/
