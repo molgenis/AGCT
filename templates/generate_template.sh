@@ -92,5 +92,5 @@ sh "${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh" \
 -rundir "${workDir}/runs/${filePrefix}/${runID}/jobs/" \
 -b slurm \
 -weave \
---generate
+--generate \
 -o runID="${runID}"
