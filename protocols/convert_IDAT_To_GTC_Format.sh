@@ -9,8 +9,9 @@
 #string IDATFilesPath
 #string logsDir
 #string Project
-#string runid
+#string runID
 #string resultDir
+#string GTCFilesPath
 
 module load "${iaapVersion}"
 module list
@@ -18,11 +19,11 @@ module list
 mkdir -p "${ConvertDir}/"
 mkdir -p "${ConvertDir}/${SentrixBarcode_A}"
 
-if [ ! -f "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started" ]
+if [ ! -f "${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started" ]
 then
-	touch ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started
+	touch ${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started
 else
-	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started allready exist"
+	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started allready exist"
 fi
 
 ##Command to convert IDAT files to GTC files
@@ -36,17 +37,26 @@ do
 	md5sum "${gtcfile}" > "${gtcfile}".md5
 done
 
-#Move GTC files and md5's to resultsdir
+#Move GTC files and md5's to rawdata/array/GTC/ folder
 mkdir -p "${resultDir}"
 
-echo "moving ${ConvertDir}/${SentrixBarcode_A} ${resultDir}/"
-mv "${ConvertDir}/${SentrixBarcode_A}" "${resultDir}/"
+echo "moving ${ConvertDir}/${SentrixBarcode_A} ${GTCFilesPath}/"
+mv "${ConvertDir}/${SentrixBarcode_A}" "${GTCFilesPath}/"
+
+# Make symlinks
+mkdir -p "${resultDir}/${SentrixBarcode_A}"
+cd "${resultDir}/${SentrixBarcode_A}"
+
+for i in $(ls ${GTCFilesPath}/${SentrixBarcode_A}/*.gtc)
+do
+	echo ${i}
+done
 
 
 ## touch file to let know conversion is completed
-if [ "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started" ]
+if [ "${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started" ]
 then
-	mv ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started ${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.finished
+	mv ${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started ${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.finished
 else
 	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started does not exist!"
 fi
