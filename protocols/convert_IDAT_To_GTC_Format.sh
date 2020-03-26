@@ -42,7 +42,8 @@ cd "${resultDir}/${SentrixBarcode_A}"
 
 for i in $(ls ${GTCFilesPath}/${SentrixBarcode_A}/*.gtc)
 do
-	echo ${i}
+	echo "symlinking: ${i}"
+	ln -s "${i}"
 done
 
 cd -
