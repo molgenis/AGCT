@@ -19,13 +19,6 @@ module list
 mkdir -p "${ConvertDir}/"
 mkdir -p "${ConvertDir}/${SentrixBarcode_A}"
 
-if [ ! -f "${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started" ]
-then
-	touch ${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started
-else
-	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started allready exist"
-fi
-
 ##Command to convert IDAT files to GTC files
 /apps/software/IAAP/cli-rhel.6-x64-1.1.0/iaap-cli/iaap-cli gencall "${bpmFile}" "${egtFile}" "${ConvertDir}/${SentrixBarcode_A}" -f "${IDATFilesPath}/${SentrixBarcode_A}" -g
 
@@ -53,11 +46,3 @@ do
 done
 
 cd -
-
-## touch file to let know conversion is completed
-if [ "${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started" ]
-then
-	mv ${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.started ${logsDir}//${Project}/${SentrixBarcode_A}.${runID}.AGCT.finished
-else
-	echo "${logsDir}//${Project}/${SentrixBarcode_A}.${runid}.AGCT.started does not exist!"
-fi
