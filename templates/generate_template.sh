@@ -68,7 +68,7 @@ echo "pipeline: ${pipeline}"
 host=$(hostname -s)
 echo "${host}"
 
-projectDir="${workDir}/runs/${filePrefix}/${runID}/jobs/"
+projectDir="${workDir}/projects/${filePrefix}/${runID}/jobs/"
 workflow=${EBROOTAGCT}/workflow.csv
 
 mkdir -p -m 2770 "${workDir}/projects/"
