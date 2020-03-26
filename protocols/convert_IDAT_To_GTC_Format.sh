@@ -5,7 +5,7 @@
 #string egtFile
 #string egt
 #string SentrixBarcode_A
-#string ConvertDir
+#string convertDir
 #string IDATFilesPath
 #string logsDir
 #string Project
@@ -16,16 +16,15 @@
 module load "${iaapVersion}"
 module list
 
-mkdir -p "${ConvertDir}/"
-mkdir -p "${ConvertDir}/${SentrixBarcode_A}"
+mkdir -p "${convertDir}/"
+mkdir -p "${convertDir}/${SentrixBarcode_A}"
 
 ##Command to convert IDAT files to GTC files
-/apps/software/IAAP/cli-rhel.6-x64-1.1.0/iaap-cli/iaap-cli gencall "${bpmFile}" "${egtFile}" "${ConvertDir}/${SentrixBarcode_A}" -f "${IDATFilesPath}/${SentrixBarcode_A}" -g
-
+${EBROOTIAAP}/iaap-cli/iaap-cli gencall "${bpmFile}" "${egtFile}" "${convertDir}/${SentrixBarcode_A}" -f "${IDATFilesPath}/${SentrixBarcode_A}" -g
 
 ## md5sum the output
 
-for gtcfile in $(ls ${ConvertDir}/${SentrixBarcode_A}/*.gtc*)
+for gtcfile in $(ls "${convertDir}/${SentrixBarcode_A}/"*.gtc)
 do
 	md5sum "${gtcfile}" > "${gtcfile}".md5
 done
@@ -33,19 +32,20 @@ done
 #Move GTC files and md5's to rawdata/array/GTC/ folder
 mkdir -p "${resultDir}"
 
-echo "moving ${ConvertDir}/${SentrixBarcode_A} ${GTCFilesPath}/"
-mv "${ConvertDir}/${SentrixBarcode_A}" "${GTCFilesPath}/"
+echo "moving ${convertDir}/${SentrixBarcode_A} ${GTCFilesPath}/"
+mv "${convertDir}/${SentrixBarcode_A}" "${GTCFilesPath}/"
 
 # Make symlinks
 mkdir -p "${resultDir}/${SentrixBarcode_A}"
 cd "${resultDir}/${SentrixBarcode_A}"
 
-for i in $(ls ${GTCFilesPath}/${SentrixBarcode_A}/*.gtc*)
+
+for i in $(ls "${GTCFilesPath}/${SentrixBarcode_A}"/*.gtc)
 do
-	echo "symlinking: ${i}"
-	ln -s "${i}"
+	echo “symlinking: ${i}”
+	ln -sf “${i}”
+	echo “symlinking: ${i}.md5”
+	ln -sf “${i}.md5"
 done
-
-
 
 cd -

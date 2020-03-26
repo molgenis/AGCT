@@ -71,11 +71,11 @@ echo "${host}"
 projectDir="${workDir}/runs/${filePrefix}/${runID}/jobs/"
 workflow=${EBROOTAGCT}/workflow.csv
 
-mkdir -p -m 2770 "${workDir}/runs/"
-mkdir -p -m 2770 "${workDir}/runs/${filePrefix}/"
-mkdir -p -m 2770 "${workDir}/runs/${filePrefix}/${runID}/"
-mkdir -p -m 2770 "${workDir}/runs/${filePrefix}/${runID}/jobs/"
-mkdir -p -m 2770 "${workDir}/logs/${filePrefix}/"
+mkdir -p -m 2770 "${workDir}/projects/"
+mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/"
+mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/${runID}/"
+mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/${runID}/jobs/"
+mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/"
 
 touch "${workDir}/logs/${filePrefix}/${filePrefix}.run01.AGCT.started"
 
@@ -90,7 +90,7 @@ sh "${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh" \
 -p "${samplesheet}" \
 --submit "${EBROOTAGCT}/templates/slurm/submit.ftl" \
 -w "${workflow}" \
--rundir "${workDir}/runs/${filePrefix}/${runID}/jobs/" \
+-rundir "${workDir}/projects/${filePrefix}/${runID}/jobs/" \
 -b slurm \
 -weave \
 --generate \

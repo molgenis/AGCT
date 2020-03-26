@@ -13,7 +13,7 @@ tmpDir,${workDir}/${tmpName}/
 tmpTmpdir,${tmpDir}/tmp/
 intermediateDir,${tmpTmpdir}/${Project}/${runID}/
 logsDir,${workDir}/${tmpName}/logs/
-ConvertDir,${intermediateDir}/Convert_IDAT_GTC/
+convertDir,${intermediateDir}/Convert_IDAT_GTC/
 IDATFilesPath,${tmpDir}/rawdata/array/IDAT/
-resultDir,${tmpDir}/runs/${Project}/${runID}/results/GTC/
+resultDir,${tmpDir}/projects/${Project}/${runID}/results/GTC/
 GTCFilesPath,${tmpDir}/rawdata/array/GTC/

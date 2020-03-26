@@ -8,7 +8,7 @@
 set -e
 set -u
 
-# Touch log file for GAP_Automated for starting copying project data to PRM
+# Touch log file for NGS_Automated for starting copying rawdata to PRM
 
 if [ -f "${logsDir}//${Project}/${Project}.${runID}.AGCT.started" ]
 then
