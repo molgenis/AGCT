@@ -25,7 +25,7 @@ mkdir -p "${ConvertDir}/${SentrixBarcode_A}"
 
 ## md5sum the output
 
-for gtcfile in $(ls ${ConvertDir}/${SentrixBarcode_A}/*.gtc)
+for gtcfile in $(ls ${ConvertDir}/${SentrixBarcode_A}/*.gtc*)
 do
 	md5sum "${gtcfile}" > "${gtcfile}".md5
 done
@@ -40,10 +40,12 @@ mv "${ConvertDir}/${SentrixBarcode_A}" "${GTCFilesPath}/"
 mkdir -p "${resultDir}/${SentrixBarcode_A}"
 cd "${resultDir}/${SentrixBarcode_A}"
 
-for i in $(ls ${GTCFilesPath}/${SentrixBarcode_A}/*.gtc)
+for i in $(ls ${GTCFilesPath}/${SentrixBarcode_A}/*.gtc*)
 do
 	echo "symlinking: ${i}"
 	ln -s "${i}"
 done
+
+
 
 cd -
