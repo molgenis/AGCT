@@ -88,6 +88,7 @@ sh "${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh" \
 -p "${genScripts}/parameters_group_converted.csv" \
 -p "${genScripts}/parameters_host_converted.csv" \
 -p "${samplesheet}" \
+--submit "${EBROOTAGCT}/templates/slurm/submit.ftl" \
 -w "${workflow}" \
 -rundir "${workDir}/runs/${filePrefix}/${runID}/jobs/" \
 -b slurm \
