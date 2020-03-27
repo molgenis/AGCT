@@ -29,7 +29,7 @@ do
 	md5sum "${gtcfile}" > "${gtcfile}".md5
 done
 
-#Move GTC files and md5's to rawdata/array/GTC/ folder
+#Move GTC files and md5s to rawdata/array/GTC/ folder
 mkdir -p "${GTCFilesPath}/${SentrixBarcode_A}/"
 
 echo "moving ${convertDir}/${SentrixBarcode_A}/* ${GTCFilesPath}//${SentrixBarcode_A}/"

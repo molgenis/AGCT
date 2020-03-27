@@ -10,11 +10,11 @@ set -u
 
 # Touch log file for NGS_Automated for starting copying rawdata to PRM
 
-if [ -f "${logsDir}//${Project}/${Project}.${runID}.AGCT.started" ]
+if [ -f "${logsDir}/${Project}/${Project}.${runID}.AGCT.started" ]
 then
 	mv "${logsDir}/${Project}/${Project}.${runID}.AGCT".{started,finished}
 else
-	echo "${logsDir}//${Project}/${Project}.${runID}.AGCT.started does not exist"
+	echo "${logsDir}/${Project}/${Project}.${runID}.AGCT.started does not exist"
 	exit 1
 fi
 
