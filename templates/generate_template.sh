@@ -2,9 +2,6 @@
 
 module list
 
-host=$(hostname -s)
-environmentParameters="parameters_${host}"
-
 function showHelp() {
     #
     # Display commandline help on STDOUT.
@@ -43,7 +40,6 @@ if [[ -z "${Project:-}" ]]; then Project=$(basename $(pwd )) ; fi ; echo "Projec
 if [[ -z "${runID:-}" ]]; then runID="run01" ; fi ; echo "runID=${runID}"
 genScripts="${workDir}/generatedscripts/${filePrefix}/"
 samplesheet="${genScripts}/${filePrefix}.csv" ; mac2unix "${samplesheet}"
-
 ### Which pipeline to run
 declare -a sampleSheetColumnNames=()
 declare -A sampleSheetColumnOffsets=()
@@ -66,7 +62,14 @@ fi
 echo "pipeline: ${pipeline}"
 
 host=$(hostname -s)
-echo "${host}"
+if [[ ${host} = *'gattaca'* ]]
+then
+	parameters_host=parameters_gattaca
+else
+	parameters_host=parameters_${host}
+fi
+
+echo "${host} + ${parameters_host}"
 
 projectDir="${workDir}/projects/${filePrefix}/${runID}/jobs/"
 workflow=${EBROOTAGCT}/workflow.csv
@@ -79,7 +82,7 @@ mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/"
 
 touch "${workDir}/logs/${filePrefix}/${filePrefix}.run01.AGCT.started"
 
-perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters_${host}.csv" > "${genScripts}/parameters_host_converted.csv"
+perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/${parameters_host}.csv" > "${genScripts}/parameters_host_converted.csv"
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters_${group}.csv" > "${genScripts}/parameters_group_converted.csv"
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters.csv" > "${genScripts}/parameters_converted.csv"
 
