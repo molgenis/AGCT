@@ -16,7 +16,6 @@
 module load "${iaapVersion}"
 module list
 
-mkdir -p "${convertDir}/"
 mkdir -p "${convertDir}/${SentrixBarcode_A}"
 
 ##Command to convert IDAT files to GTC files
@@ -37,7 +36,6 @@ mv "${convertDir}/${SentrixBarcode_A}/"* "${GTCFilesPath}/${SentrixBarcode_A}/"
 
 
 # Make symlinks
-mkdir -p "${resultDir}"
 mkdir -p "${resultDir}/${SentrixBarcode_A}"
 
 cd "${resultDir}/${SentrixBarcode_A}"
