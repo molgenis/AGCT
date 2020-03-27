@@ -6,8 +6,7 @@ bpmFile,/apps/data/GSAarray/${manifest}
 egtFile,/apps/data/GSAarray/${egt}
 
 #paths
-root,/
-appsDir,${root}/apps/
+appsDir,/apps/
 workDir,/groups/${group}/
 tmpDir,${workDir}/${tmpName}/
 tmpTmpdir,${tmpDir}/tmp/
