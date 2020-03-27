@@ -30,20 +30,17 @@ do
 done
 
 #Move GTC files and md5's to rawdata/array/GTC/ folder
-mkdir -p "${GTCFilesPath}/${SentrixBarcode_A}/"
+mkdir -p "${resultDir}"
 
-echo "moving ${convertDir}/${SentrixBarcode_A}/* ${GTCFilesPath}//${SentrixBarcode_A}/"
-mv "${convertDir}/${SentrixBarcode_A}/"* "${GTCFilesPath}/${SentrixBarcode_A}/"
-
+echo "moving ${convertDir}/${SentrixBarcode_A} ${GTCFilesPath}/"
+mv "${convertDir}/${SentrixBarcode_A}" "${GTCFilesPath}/"
 
 # Make symlinks
-mkdir -p "${resultDir}"
 mkdir -p "${resultDir}/${SentrixBarcode_A}"
-
 cd "${resultDir}/${SentrixBarcode_A}"
 
 
-for i in $(ls "${GTCFilesPath}/${SentrixBarcode_A}"/*.gtc)
+for i in $(ls "${GTCFilesPath}/${SentrixBarcode_A}"/*".gtc")
 do
 	echo "symlinking: ${i}"
 	ln -sf "${i}"
