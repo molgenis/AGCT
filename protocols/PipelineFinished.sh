@@ -10,4 +10,4 @@ set -u
 
 # Touch log file for NGS_Automated for starting copying rawdata to PRM
 
-touch "${logsDir}/${Project}/${runID}.AGCT.finished
+touch "${logsDir}/${Project}/${runID}.AGCT.finished"
