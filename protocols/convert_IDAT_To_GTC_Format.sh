@@ -1,39 +1,52 @@
 #MOLGENIS walltime=05:59:00 mem=8gb ppn=1
 
-#string #iaapVersion
+#string iaapVersion
 #string bpmFile
 #string egtFile
+#string egt
 #string SentrixBarcode_A
-#string ConvertDir
+#string convertDir
 #string IDATFilesPath
 #string logsDir
 #string Project
 #string runID
-
+#string resultDir
+#string GTCFilesPath
 
 module load "${iaapVersion}"
 module list
 
-makeTmpDir "${ConvertDir}/"
-tmpConvertDir="${MC_tmpFile}"
-
-if [ !-f "${logsDir}//${Project}/${runID}.convert_idat_gtc.started" ]
-then
-	touch ${logsDir}//${Project}/${runID}.convert_idat_gtc.started
-else
-	echo "${logsDir}//${Project}/${runID}.convert_idat_gtc.started allready exist"
-done
+mkdir -p "${convertDir}/${SentrixBarcode_A}"
 
 ##Command to convert IDAT files to GTC files
-/apps/software/IAAP/cli-rhel.6-x64-1.1.0/iaap-cli/iaap-cli gencall "${bpmFile}" "${egtFile}" "${tmpConvertDir}" "${IDATFilesPath}/${SentrixBarcode_A}"
-
+${EBROOTIAAP}/iaap-cli/iaap-cli gencall "${bpmFile}" "${egtFile}" "${convertDir}/${SentrixBarcode_A}" -f "${IDATFilesPath}/${SentrixBarcode_A}" -g
 
 ## md5sum the output
 
+for gtcfile in $(ls "${convertDir}/${SentrixBarcode_A}/"*.gtc)
+do
+	md5sum "${gtcfile}" > "${gtcfile}".md5
+done
+
+#Move GTC files and md5s to rawdata/array/GTC/ folder
+mkdir -p "${GTCFilesPath}/${SentrixBarcode_A}/"
+
+echo "moving ${convertDir}/${SentrixBarcode_A}/* ${GTCFilesPath}//${SentrixBarcode_A}/"
+mv "${convertDir}/${SentrixBarcode_A}/"* "${GTCFilesPath}/${SentrixBarcode_A}/"
 
 
-mkdir -p "${resultDir}/"
+# Make symlinks
+mkdir -p "${resultDir}/${SentrixBarcode_A}"
 
-#Move vcf and sd values to intermediateDir
-echo "moving ${tmpConvertDir}/${SentrixBarcode_A} ${resultDir}/"
-mv "${tmpConvertDir}/${SentrixBarcode_A}" "${resultDir}/"
+cd "${resultDir}/${SentrixBarcode_A}"
+
+
+for i in $(ls "${GTCFilesPath}/${SentrixBarcode_A}"/*.gtc)
+do
+	echo "symlinking: ${i}"
+	ln -sf "${i}"
+	echo "symlinking: ${i}.md5"
+	ln -sf "${i}.md5"
+done
+
+cd -
