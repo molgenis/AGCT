@@ -10,4 +10,9 @@ set -u
 
 # Touch log file for NGS_Automated for starting copying rawdata to PRM
 
-touch "${logsDir}/${Project}/${runID}.AGCT.finished"
+if [ -e "${logsDir}/${Project}/${runID}.arrayConversion.started" ]
+then
+	mv "${logsDir}/${Project}/${runID}.arrayConversion."{started,finished}
+else
+	touch "${logsDir}/${Project}/${runID}.arrayConversion.finished"
+fi
