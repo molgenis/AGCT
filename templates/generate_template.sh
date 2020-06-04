@@ -80,8 +80,6 @@ mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/${runID}/"
 mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/${runID}/jobs/"
 mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/"
 
-touch "${workDir}/logs/${filePrefix}/${filePrefix}.run01.AGCT.started"
-
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/${parameters_host}.csv" > "${genScripts}/parameters_host_converted.csv"
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters_${group}.csv" > "${genScripts}/parameters_group_converted.csv"
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters.csv" > "${genScripts}/parameters_converted.csv"
