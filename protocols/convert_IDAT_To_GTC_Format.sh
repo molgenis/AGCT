@@ -34,6 +34,11 @@ mkdir -p "${GTCFilesPath}/${SentrixBarcode_A}/"
 echo "moving ${convertDir}/${SentrixBarcode_A}/* ${GTCFilesPath}//${SentrixBarcode_A}/"
 mv "${convertDir}/${SentrixBarcode_A}/"* "${GTCFilesPath}/${SentrixBarcode_A}/"
 
+##copy 
+if [[ -e "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt" ]]
+then
+	cp "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt" "${GTCFilesPath}/${SentrixBarcode_A}/"
+fi
 
 # Make symlinks
 mkdir -p "${resultDir}/${SentrixBarcode_A}"

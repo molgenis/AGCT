@@ -16,3 +16,4 @@ convertDir,${intermediateDir}/Convert_IDAT_GTC/
 IDATFilesPath,${tmpDir}/rawdata/array/IDAT/
 resultDir,${tmpDir}/projects/${Project}/${runID}/results/GTC/
 GTCFilesPath,${tmpDir}/rawdata/array/GTC/
+samplesheet,${tmpDir}/generatedscripts/${Project}/${Project}.csv
