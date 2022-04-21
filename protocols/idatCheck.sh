@@ -56,17 +56,20 @@ if [[ ${#missingIDATs[@]:-0} == "0" ]]
 then
 	echo "All the IDATs for ${SentrixBarcode_A} are created"
 else
-	declare -a sampleSheetColumnNames=()
-	declare -A sampleSheetColumnOffsets=()
-	IFS=',' sampleSheetColumnNames=($(head -1 "${samplesheet}"))
-
-	for (( _offset = 0 ; _offset < ${#sampleSheetColumnNames[@]:-0} ; _offset++ ))
+	for position in ${missingIDATs[*]}
 	do
-		sampleSheetColumnOffsets["${sampleSheetColumnNames[${_offset}]}"]="${_offset}"
+		declare -a sampleSheetColumnNames=()
+		declare -A sampleSheetColumnOffsets=()
+		IFS=',' sampleSheetColumnNames=($(head -1 "${samplesheet}"))
+
+		for (( _offset = 0 ; _offset < ${#sampleSheetColumnNames[@]:-0} ; _offset++ ))
+		do
+			sampleSheetColumnOffsets["${sampleSheetColumnNames[${_offset}]}"]="${_offset}"
+		done
+		sampleIDFieldIndex=$((${sampleSheetColumnOffsets['Sample_ID']} + 1 ))
+		sampleID=$(grep ${SentrixBarcode_A} ${samplesheet} | grep ${position} | head -1 | awk -v extId="${sampleIDFieldIndex}" 'BEGIN {FS=","}{print $extId}')
+		echo "For sample: ${sampleID} the IDATs are missing! Plate ${SentrixBarcode_A}, position: ${position}"
+		echo "For sample: ${sampleID} the IDATs are missing! Plate ${SentrixBarcode_A}, position: ${position}" >> "${logsDir}/${Project}/${SentrixBarcode_A}.missingIDATs.txt"
+		echo "${sampleID}:${SentrixBarcode_A}_${position}" >> "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt"
 	done
-	sampleIDFieldIndex=$((${sampleSheetColumnOffsets['Sample_ID']} + 1 ))
-	sampleID=$(grep ${SentrixBarcode_A} ${samplesheet} | grep ${position} | head -1 | awk -v extId="${sampleIDFieldIndex}" 'BEGIN {FS=","}{print $extId}')
-	echo "For sample: ${sampleID} the IDATs are missing! Plate ${SentrixBarcode_A}, position: ${position}"
-	echo "For sample: ${sampleID} the IDATs are missing! Plate ${SentrixBarcode_A}, position: ${position}" >> "${logsDir}/${Project}/${SentrixBarcode_A}.missingIDATs.txt"
-	echo "${sampleID}:${SentrixBarcode_A}_${position}" >> "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt"
 fi
