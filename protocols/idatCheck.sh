@@ -37,20 +37,23 @@ do
 	if ls "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat" 1> /dev/null 2>&1
 	then
 		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat available"	
+		if find "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat" 1> /dev/null 2>&1
+		then
+			echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat available"	
+		else
+			echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat not found"
+			missingIDATs+=("${position}")
+		fi
 	else
 		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat not found"
 		missingIDATs+=("${position}")
 		continue
 	fi
 	
-	if find "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat" 1> /dev/null 2>&1
-	then
-		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat available"	
-	else
-		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat not found"
-		missingIDATs+=("${position}")
-	fi
+	
 done
+
+rm -f "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt"
 
 if [[ ${#missingIDATs[@]:-0} == "0" ]]
 then
