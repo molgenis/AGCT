@@ -38,7 +38,7 @@ if [[ -z "${workDir:-}" ]]; then workDir="/groups/${group}/${tmpDirectory}" ; fi
 if [[ -z "${filePrefix:-}" ]]; then filePrefix=$(basename $(pwd )) ; fi ; echo "filePrefix=${filePrefix}"
 if [[ -z "${Project:-}" ]]; then Project=$(basename $(pwd )) ; fi ; echo "Project=${Project}"
 if [[ -z "${runID:-}" ]]; then runID="run01" ; fi ; echo "runID=${runID}"
-genScripts="${workDir}/generatedscripts/${filePrefix}/"
+genScripts="${workDir}/generatedscripts_array/${filePrefix}/"
 samplesheet="${genScripts}/${filePrefix}.csv" ; mac2unix "${samplesheet}"
 ### Which pipeline to run
 declare -a sampleSheetColumnNames=()
@@ -71,14 +71,14 @@ fi
 
 echo "${host} + ${parameters_host}"
 
-projectDir="${workDir}/projects/${filePrefix}/${runID}/jobs/"
+projectDir="${workDir}/runs_array/${filePrefix}/${runID}/jobs/"
 workflow=${EBROOTAGCT}/workflow.csv
 
-mkdir -p -m 2770 "${workDir}/projects/"
-mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/"
-mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/${runID}/"
-mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/${runID}/jobs/"
-mkdir -p -m 2770 "${workDir}/projects/${filePrefix}/"
+mkdir -p -m 2770 "${workDir}/runs_array/"
+mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/"
+mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/${runID}/"
+mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/${runID}/jobs/"
+mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/"
 
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/${parameters_host}.csv" > "${genScripts}/parameters_host_converted.csv"
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters_${group}.csv" > "${genScripts}/parameters_group_converted.csv"
@@ -91,7 +91,7 @@ sh "${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh" \
 -p "${samplesheet}" \
 --submit "${EBROOTAGCT}/templates/slurm/submit.ftl" \
 -w "${workflow}" \
--rundir "${workDir}/projects/${filePrefix}/${runID}/jobs/" \
+-rundir "${workDir}/runs_array/${filePrefix}/${runID}/jobs/" \
 -b slurm \
 -weave \
 --generate \
