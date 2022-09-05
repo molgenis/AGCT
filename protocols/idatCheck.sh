@@ -54,10 +54,14 @@ do
 done
 
 rm -f "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt"
-
-if [[ ${#missingIDATs[@]:-0} == "0" ]]
+samplesheetSize=$(tail -n+2 ${samplesheet} | wc -l)
+if [[ "${#missingIDATs[@]}" == "0" ]]
 then
 	echo "All the IDATs for ${SentrixBarcode_A} are created"
+elif [[ "${#missingIDATs[@]}" == "${samplesheetSize}" ]]
+then
+	echo -e "There are no idat files scanned (probably due to a restart which produced the ${SentrixBarcode_A}_qc.txt and therefore a false start of the pipeline)\n, exit!"
+	exit 1
 else
 	for position in ${missingIDATs[*]}
 	do
