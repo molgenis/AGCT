@@ -32,13 +32,13 @@ do
     esac
 done
 
-if [[ -z "${tmpDirectory:-}" ]]; then tmpDirectory=$(basename $(cd ../../ && pwd )) ; fi ; echo "tmpDirectory=${tmpDirectory}"
-if [[ -z "${group:-}" ]]; then group=$(basename $(cd ../../../ && pwd )) ; fi ; echo "group=${group}"
+if [[ -z "${tmpDirectory:-}" ]]; then tmpDirectory=$(basename $(cd ../../../ && pwd )) ; fi ; echo "tmpDirectory=${tmpDirectory}"
+if [[ -z "${group:-}" ]]; then group=$(basename $(cd ../../../../ && pwd )) ; fi ; echo "group=${group}"
 if [[ -z "${workDir:-}" ]]; then workDir="/groups/${group}/${tmpDirectory}" ; fi ; echo "workDir=${workDir}"
 if [[ -z "${filePrefix:-}" ]]; then filePrefix=$(basename $(pwd )) ; fi ; echo "filePrefix=${filePrefix}"
 if [[ -z "${Project:-}" ]]; then Project=$(basename $(pwd )) ; fi ; echo "Project=${Project}"
 if [[ -z "${runID:-}" ]]; then runID="run01" ; fi ; echo "runID=${runID}"
-genScripts="${workDir}/generatedscripts_array/${filePrefix}/"
+genScripts="${workDir}/generatedscripts/AGCT/${filePrefix}/"
 samplesheet="${genScripts}/${filePrefix}.csv" ; mac2unix "${samplesheet}"
 ### Which pipeline to run
 declare -a sampleSheetColumnNames=()
@@ -64,21 +64,17 @@ echo "pipeline: ${pipeline}"
 host=$(hostname -s)
 if [[ ${host} = *'gattaca'* ]]
 then
-	parameters_host=parameters_gattaca
+	parameters_host='parameters_gattaca'
 else
-	parameters_host=parameters_${host}
+	parameters_host="parameters_${host}"
 fi
 
 echo "${host} + ${parameters_host}"
 
-projectDir="${workDir}/runs_array/${filePrefix}/${runID}/jobs/"
-workflow=${EBROOTAGCT}/workflow.csv
+projectDir="${workDir}/runs/AGCT/${filePrefix}/${runID}/jobs/"
+workflow="${EBROOTAGCT}/workflow.csv"
 
-mkdir -p -m 2770 "${workDir}/runs_array/"
-mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/"
-mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/${runID}/"
-mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/${runID}/jobs/"
-mkdir -p -m 2770 "${workDir}/runs_array/${filePrefix}/"
+mkdir -p -m 2770 "${projectDir}"
 
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/${parameters_host}.csv" > "${genScripts}/parameters_host_converted.csv"
 perl "${EBROOTAGCT}/scripts/convertParametersGitToMolgenis.pl" "${EBROOTAGCT}/parameters_${group}.csv" > "${genScripts}/parameters_group_converted.csv"
@@ -91,7 +87,7 @@ sh "${EBROOTMOLGENISMINCOMPUTE}/molgenis_compute.sh" \
 -p "${samplesheet}" \
 --submit "${EBROOTAGCT}/templates/slurm/submit.ftl" \
 -w "${workflow}" \
--rundir "${workDir}/runs_array/${filePrefix}/${runID}/jobs/" \
+-rundir "${projectDir}" \
 -b slurm \
 -weave \
 --generate \
