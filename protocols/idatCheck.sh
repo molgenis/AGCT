@@ -11,16 +11,16 @@
 ##Command to convert IDAT files to GTC files
 
 array_contains () {
-    local array="$1[@]"
-    local seeking="${2}"
-    local in=1
-    for element in "${!array-}"; do
-        if [[ "${element}" == "${seeking}" ]]; then
-            in=0
-            break
-        fi
-    done
-    return "${in}"
+	local array="$1[@]"
+	local seeking="${2}"
+	local in=1
+	for element in "${!array-}"; do
+		if [[ "${element}" == "${seeking}" ]]; then
+			in=0
+			break
+		fi
+	done
+	return "${in}"
 }
 
 POSITION=()
@@ -36,10 +36,10 @@ for position in "${POSITION[@]}"
 do
 	if ls "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat" 1> /dev/null 2>&1
 	then
-		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat available"	
+		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat available
 		if find "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat" 1> /dev/null 2>&1
 		then
-			echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat available"	
+			echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat available
 		else
 			echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat not found"
 			missingIDATs+=("${position}")
@@ -49,8 +49,8 @@ do
 		missingIDATs+=("${position}")
 		continue
 	fi
-	
-	
+
+
 done
 
 rm -f "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt"
