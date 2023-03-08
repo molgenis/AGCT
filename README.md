@@ -1,3 +1,4 @@
+
 #  Array Genotyping Conversion Tool
 
 The AGCT (Array Genotyping Conversion Tool) pipeline consists of only 1 step:
