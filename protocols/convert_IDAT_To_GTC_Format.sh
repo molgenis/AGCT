@@ -31,6 +31,7 @@ mkdir -p "${convertDir}/${SentrixBarcode_A}"
 # Create md5 checksums for the GTC files.
 #
 for gtcfile in "${convertDir}/${SentrixBarcode_A}/"*.gtc
+do
 	[[ -e "${gtcfile}" ]] || break  # Handle the case when no GTC files were present.
 	md5sum "${gtcfile}" > "${gtcfile}".md5
 done
