@@ -30,7 +30,7 @@ POSITION=()
 
 for SentrixPosition in "${SentrixPosition_A[@]}"
 do
-	already_present=$(array_contains POSITION "${SentrixPosition}")
+	already_present=$(set -e; array_contains POSITION "${SentrixPosition}")
 	if [[ "${already_present}" == 'no' ]]
 	then
 		POSITION+=("${SentrixPosition}")

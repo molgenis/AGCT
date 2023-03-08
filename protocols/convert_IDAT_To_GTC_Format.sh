@@ -30,8 +30,8 @@ mkdir -p "${convertDir}/${SentrixBarcode_A}"
 #
 # Create md5 checksums for the GTC files.
 #
-for gtcfile in $(ls "${convertDir}/${SentrixBarcode_A}/"*.gtc)
-do
+for gtcfile in "${convertDir}/${SentrixBarcode_A}/"*.gtc
+	[[ -e "${gtcfile}" ]] || break  # Handle the case when no GTC files were present.
 	md5sum "${gtcfile}" > "${gtcfile}".md5
 done
 
@@ -51,8 +51,9 @@ fi
 # Make symlinks.
 #
 mkdir -p "${resultDir}/${SentrixBarcode_A}"
-for i in $(ls "${GTCFilesPath}/${SentrixBarcode_A}"/*.gtc)
+for gtcfile in "${GTCFilesPath}/${SentrixBarcode_A}"/*.gtc
 do
-	echo "Symlinking: ${i} and corresponding checksum file ..."
-	$(cd "${resultDir}/${SentrixBarcode_A}" && ln -sf "${i}" . && ln -sf "${i}.md5" .)
+	[[ -e "${gtcfile}" ]] || break  # Handle the case when no GTC files were present.
+	echo "Symlinking: ${gtcfile} and corresponding checksum file ..."
+	$(cd "${resultDir}/${SentrixBarcode_A}" && ln -sf "${gtcfile}" . && ln -sf "${gtcfile}.md5" .)
 done
