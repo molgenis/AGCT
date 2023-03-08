@@ -56,5 +56,10 @@ for gtcfile in "${GTCFilesPath}/${SentrixBarcode_A}"/*.gtc
 do
 	[[ -e "${gtcfile}" ]] || break  # Handle the case when no GTC files were present.
 	echo "Symlinking: ${gtcfile} and corresponding checksum file ..."
-	$(cd "${resultDir}/${SentrixBarcode_A}" && ln -sf "${gtcfile}" . && ln -sf "${gtcfile}.md5" .)
+	(
+		set -e; set -u
+		cd "${resultDir}/${SentrixBarcode_A}"
+		ln -sf "${gtcfile}" .
+		ln -sf "${gtcfile}.md5" .
+	)
 done
