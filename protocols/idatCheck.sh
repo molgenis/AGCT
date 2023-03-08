@@ -9,7 +9,9 @@
 #string runID
 #string samplesheet
 
-##Command to convert IDAT files to GTC files
+set -e
+set -u
+set -o pipefail
 
 array_contains () {
 	local array="$1[@]"
@@ -28,27 +30,31 @@ POSITION=()
 
 for SentrixPosition in "${SentrixPosition_A[@]}"
 do
-		array_contains POSITION "${SentrixPosition}" || POSITION+=("${SentrixPosition}")
+	array_contains POSITION "${SentrixPosition}" || POSITION+=("${SentrixPosition}")
 done
 
 missingIDATs=()
 
 for position in "${POSITION[@]}"
 do
-	if ls "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat" 1> /dev/null 2>&1
+	missing='false'
+	if find "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat" 1> /dev/null 2>&1
 	then
 		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat available"
-		if find "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat" 1> /dev/null 2>&1
-		then
-			echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat available"
-		else
-			echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat not found"
-			missingIDATs+=("${position}")
-		fi
 	else
-		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat not found"
+		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Grn.idat not found."
+		missing='true'
+	fi
+	if find "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat" 1> /dev/null 2>&1
+	then
+		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat available."
+	else
+		echo "${IDATFilesPath}/${SentrixBarcode_A}/${SentrixBarcode_A}_${position}_Red.idat not found."
+		missing='true'
+	fi
+	if [[ "${missing}" == 'true' ]]
+	then
 		missingIDATs+=("${position}")
-		continue
 	fi
 done
 
@@ -56,13 +62,13 @@ rm -f "${IDATFilesPath}/${SentrixBarcode_A}/missingIDATs.txt"
 samplesheetSize=$(tail -n+2 ${samplesheet} | wc -l)
 if [[ "${#missingIDATs[@]}" == "0" ]]
 then
-	echo "All the IDATs for ${SentrixBarcode_A} are created"
+	echo "All the IDATs for ${SentrixBarcode_A} are created."
 elif [[ "${#missingIDATs[@]}" == "${samplesheetSize}" ]]
 then
 	echo -e "There are no idat files scanned (probably due to a restart which produced the ${SentrixBarcode_A}_qc.txt and therefore a false start of the pipeline)\n, exit!"
 	exit 1
 else
-	for position in ${missingIDATs[*]}
+	for position in "${missingIDATs[@]}"
 	do
 		declare -a sampleSheetColumnNames=()
 		declare -A sampleSheetColumnOffsets=()
