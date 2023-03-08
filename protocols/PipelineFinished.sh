@@ -7,10 +7,11 @@
 
 set -e
 set -u
+set -o pipefail
 
 # Touch log file for NGS_Automated for starting copying rawdata to PRM
 
-if [ -e "${logsDir}/${Project}/${runID}.arrayConversion.started" ]
+if [[ -e "${logsDir}/${Project}/${runID}.arrayConversion.started" ]]
 then
 	mv "${logsDir}/${Project}/${runID}.arrayConversion."{started,finished}
 else
