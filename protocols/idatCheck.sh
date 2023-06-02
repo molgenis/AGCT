@@ -76,7 +76,7 @@ else
 	do
 		declare -a sampleSheetColumnNames=()
 		declare -A sampleSheetColumnOffsets=()
-		IFS=',' read -r -a sampleSheetColumnNames <<<"$(head -1 "${_sampleSheet}")"		
+		IFS=',' read -r -a sampleSheetColumnNames <<<"$(head -1 "${samplesheet}")"		
 		for (( _offset = 0 ; _offset < ${#sampleSheetColumnNames[@]:-0} ; _offset++ ))
 		do
 			sampleSheetColumnOffsets["${sampleSheetColumnNames[${_offset}]}"]="${_offset}"
